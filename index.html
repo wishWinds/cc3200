@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .form {
+            width: 50%;
+            margin: auto;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <label for="Device ID">Device ID</label>
+        <input type="text" id="Device ID">
+        <br>
+
+        <label for="Trigger Mechansim">Trigger Mechansim</label>
+        <select id="Trigger Mechansim">
+            <option value="event">Event Based</option>
+            <option value="time">Time Based</option>
+            <option value="cmd">Cmd Based</option>
+        </select>
+        <br>
+
+        <label for="Trigger Value(G)">Trigger Value(G)</label>
+        <input type="text" id="Trigger Value(G)">
+        <br>
+
+        <label for="Sampling Inteval(M)">Sampling Inteval(M)</label>
+        <input type="text" id="Sampling Inteval(M)">
+        <br>
+
+        <label for="Sampling Time(s)">Sampling Time(s)</label>
+        <input type="text" id="Sampling Time(s)">
+        <br>
+
+        <label for="Sampling Frequency(HZ)">Sampling Frequency(HZ)</label>
+        <input type="text" id="Sampling Frequency(HZ)">
+        <br>
+
+        <button class="button">Save</button>
+    </div>
+
+
+    <script>
+        var saveBtn = document.querySelector(".button")
+        saveBtn.addEventListener("click", function () {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "/config");
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify({ "email": "hello@user.com", "response": { "name": "Tester" } }));
+            alert("保存成功!");
+        })
+    </script>
+</body>
+
+</html>
