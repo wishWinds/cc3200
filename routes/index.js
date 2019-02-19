@@ -22,10 +22,10 @@ router.get('/config', function (req, res, next) {
         "timestamp": Math.floor(Date.now() / 1000),
         "sample_param": {
           "trigger_mechanism": config["trigger_mechanism"],
-          "trigger_value": parseInt(config["trigger_value"]),
-          "sample_time": parseInt(config["sample_time"]),
-          "sample_freq": parseInt(config["sample_freq"]),
-          "sample_intvl": parseInt(config["sample_intvl"])
+          "trigger_value": parseInt(config["trigger_value"]) ? parseInt(config["trigger_value"]) : 0,
+          "sample_time": parseInt(config["sample_time"]) ? parseInt(config["sample_time"]) : 0,
+          "sample_freq": parseInt(config["sample_freq"]) ? parseInt(config["sample_freq"]) : 0,
+          "sample_intvl": parseInt(config["sample_intvl"]) ? parseInt(config["sample_intvl"]) : 0
         }
       })
 
