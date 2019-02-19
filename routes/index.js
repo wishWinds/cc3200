@@ -28,6 +28,8 @@ router.get('/config', function (req, res, next) {
           "sample_intvl": config["sample_intvl"]
         }
       })
+
+      return
     }
   }
 
