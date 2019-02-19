@@ -7,55 +7,113 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        h1 {
+            text-align: center;
+            border-bottom: 1px darkgray solid;
+        }
+
         .form {
             width: 50%;
             margin: auto;
-            margin-top: 100px;
+            margin-top: 60px;
+        }
+
+        .line {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .line .hint {
+            font-size: 0.8em;
+            color: #868686;
+        }
+
+        .btn {
+            text-align: right
+        }
+
+        .btn button {
+            width: 20%;
         }
     </style>
 </head>
 
 <body>
+
+    <h1>CC3200数据采集</h1>
     <div class="form">
-        <label for="Device ID">Device ID</label>
-        <input type="text" id="Device ID">
+
+        <div class="line">
+            <label for="Device ID">Device ID:</label>
+            <input type="text" id="Device ID">
+        </div>
         <br>
 
-        <label for="Trigger Mechansim">Trigger Mechansim</label>
-        <select id="Trigger Mechansim">
-            <option value="event">Event Based</option>
-            <option value="time">Time Based</option>
-            <option value="cmd">Cmd Based</option>
-        </select>
+
+        <div class="line">
+            <label for="Trigger Mechansim">Trigger Mechansim:</label>
+            <select id="Trigger Mechansim">
+                <option value="event">Event Based</option>
+                <option value="time">Time Based</option>
+                <option value="cmd">Cmd Based</option>
+            </select>
+        </div>
         <br>
 
-        <label for="Trigger Value(G)">Trigger Value(G)</label>
-        <input type="text" id="Trigger Value(G)">
+        <div class="line">
+            <label for="Trigger Value(G)">Trigger Value(G):<span class="hint">仅当Tigger为Event Based时有效</span></label>
+            <input type="text" id="Trigger Value(G)">
+        </div>
         <br>
 
-        <label for="Sampling Inteval(M)">Sampling Inteval(M)</label>
-        <input type="text" id="Sampling Inteval(M)">
+
+        <div class="line">
+            <label for="Sampling Inteval(M)">Sampling Inteval(M):<span class="hint">仅当Tigger为Time Based时有效</span></label>
+            <input type="text" id="Sampling Inteval(M)">
+        </div>
         <br>
 
-        <label for="Sampling Time(s)">Sampling Time(s)</label>
-        <input type="text" id="Sampling Time(s)">
+
+        <div class="line">
+            <label for="Sampling Time(s)">Sampling Time(s):</label>
+            <input type="text" id="Sampling Time(s)">
+        </div>
         <br>
 
-        <label for="Sampling Frequency(HZ)">Sampling Frequency(HZ)</label>
-        <input type="text" id="Sampling Frequency(HZ)">
+
+        <div class="line">
+            <label for="Sampling Frequency(HZ)">Sampling Frequency(HZ):</label>
+            <input type="text" id="Sampling Frequency(HZ)">
+        </div>
         <br>
 
-        <button class="button">Save</button>
+        <div class="btn">
+            <button class="button">Save</button>
+        </div>
     </div>
 
 
     <script>
         var saveBtn = document.querySelector(".button")
+        var deviceID = document.getElementById("Device ID")
+        var TriggerM = document.getElementById("Trigger Mechansim")
+        var TriggerValue = document.getElementById("Trigger Value(G)")
+        var SamplingInteval = document.getElementById("Sampling Inteval(M)")
+        var SamplingTime = document.getElementById("Sampling Time(s)")
+        var SamplingFreq = document.getElementById("Sampling Frequency(HZ)")
+
         saveBtn.addEventListener("click", function () {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", "/config");
             xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xmlhttp.send(JSON.stringify({ "email": "hello@user.com", "response": { "name": "Tester" } }));
+            xmlhttp.send(JSON.stringify({
+                "dev_id": deviceID.value,
+                "trigger_mechanism": TriggerM.value,
+                "trigger_value": TriggerValue.value,
+                "sample_time": SamplingTime.value,
+                "sample_freq": SamplingFreq.value,
+                "sample_intvl": SamplingInteval.value
+            }));
             alert("保存成功!");
         })
     </script>

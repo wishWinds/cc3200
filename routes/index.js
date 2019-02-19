@@ -41,7 +41,7 @@ router.get('/config', function (req, res, next) {
 })
 
 router.post('/config', function (req, res, next) {
-  var config = req.query
+  var config = req.body
   configs[config["dev_id"]] = {
     "config": config,
     "hasFetch": false
