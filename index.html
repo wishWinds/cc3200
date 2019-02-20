@@ -12,6 +12,14 @@
             border-bottom: 1px darkgray solid;
         }
 
+        h2 {
+            text-align: center;
+            border-bottom: 1px darkgray solid;
+            margin: 50px 0;
+
+        }
+
+
         .form {
             width: 50%;
             margin: auto;
@@ -21,11 +29,7 @@
         .line {
             display: flex;
             justify-content: space-between;
-        }
-
-        .line .hint {
-            font-size: 0.8em;
-            color: #868686;
+            margin-top: 20px;
         }
 
         .btn {
@@ -34,6 +38,10 @@
 
         .btn button {
             width: 20%;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -47,49 +55,52 @@
             <label for="Device ID">Device ID:</label>
             <input type="text" id="Device ID">
         </div>
-        <br>
 
 
         <div class="line">
             <label for="Trigger Mechansim">Trigger Mechansim:</label>
             <select id="Trigger Mechansim">
-                <option value="event">Event Based</option>
+                <option value="event" selected>Event Based</option>
                 <option value="time">Time Based</option>
                 <option value="cmd">Cmd Based</option>
             </select>
         </div>
-        <br>
 
-        <div class="line">
-            <label for="Trigger Value(G)">Trigger Value(G):<span class="hint">仅当Tigger为Event Based时有效</span></label>
+        <div class="line" id="TriggerValueWrapper">
+            <label for="Trigger Value(G)">Trigger Value(G):</label>
             <input type="text" id="Trigger Value(G)">
         </div>
-        <br>
 
-
-        <div class="line">
-            <label for="Sampling Inteval(M)">Sampling Inteval(M):<span class="hint">仅当Tigger为Time Based时有效</span></label>
+        <div class="line hidden" id="SamplingIntevalWrapper">
+            <label for="Sampling Inteval(M)">Sampling Inteval(M):</label>
             <input type="text" id="Sampling Inteval(M)">
         </div>
-        <br>
-
 
         <div class="line">
             <label for="Sampling Time(s)">Sampling Time(s):</label>
             <input type="text" id="Sampling Time(s)">
         </div>
-        <br>
 
 
         <div class="line">
             <label for="Sampling Frequency(HZ)">Sampling Frequency(HZ):</label>
             <input type="text" id="Sampling Frequency(HZ)">
         </div>
-        <br>
+
 
         <div class="btn">
             <button class="button">Save</button>
         </div>
+
+
+        <h2>升级</h2>
+
+
+        <div class="line">
+            <label for="upgrade">升级</label>
+            <input type="checkbox" id="Upgrade">
+        </div>
+
     </div>
 
 
@@ -101,21 +112,64 @@
         var SamplingInteval = document.getElementById("Sampling Inteval(M)")
         var SamplingTime = document.getElementById("Sampling Time(s)")
         var SamplingFreq = document.getElementById("Sampling Frequency(HZ)")
+        var TriggerValueWrapper = document.getElementById("TriggerValueWrapper")
+        var SamplingIntevalWrapper = document.getElementById("SamplingIntevalWrapper")
+        var Upgrade = document.getElementById("Upgrade")
+
+        TriggerM.addEventListener("change", function () {
+            var option = TriggerM.value
+            if (option == "event") {
+                TriggerValueWrapper.classList.remove("hidden")
+                SamplingIntevalWrapper.classList.add("hidden")
+            } else if (option == "time") {
+                TriggerValueWrapper.classList.add("hidden")
+                SamplingIntevalWrapper.classList.remove("hidden")
+            } else if (option == "cmd") {
+                TriggerValueWrapper.classList.add("hidden")
+                SamplingIntevalWrapper.classList.add("hidden")
+            }
+        })
 
         saveBtn.addEventListener("click", function () {
-            var xmlhttp = new XMLHttpRequest();
+            var xmlhttp = new XMLHttpRequest()
+            var option = TriggerM.value
+            var ret = {}
+
+            ret["dev_id"] = deviceID.value
+            ret["trigger_mechanism"] = TriggerM.value
+            if (TriggerM.value == "event") { ret["trigger_value"] = TriggerValue.value }
+            if (TriggerM.value == "time") { ret["sample_intvl"] = SamplingInteval.value }
+
+            ret["sample_time"] = SamplingTime.value
+            ret["sample_freq"] = SamplingFreq.value
+            ret["dev_id"] = deviceID.value
+
             xmlhttp.open("POST", "/config");
             xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xmlhttp.send(JSON.stringify({
-                "dev_id": deviceID.value,
-                "trigger_mechanism": TriggerM.value,
-                "trigger_value": TriggerValue.value,
-                "sample_time": SamplingTime.value,
-                "sample_freq": SamplingFreq.value,
-                "sample_intvl": SamplingInteval.value
-            }));
+            xmlhttp.send(JSON.stringify(ret));
             alert("保存成功!");
         })
+
+        Upgrade.addEventListener("change", function () {
+            var xmlhttp = new XMLHttpRequest()
+            xmlhttp.open("POST", "/upgrade")
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+            xmlhttp.send(JSON.stringify({ "upgrade": Upgrade.checked }))
+        })
+
+        function getUpgrade() {
+            var xmlhttp = new XMLHttpRequest()
+            xmlhttp.open("GET", "/upgrade")
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+            xmlhttp.onload = function () {
+                var result = xmlhttp.responseText
+                result = JSON.parse(result)
+                Upgrade.checked = result["upgrade"]
+            }
+            xmlhttp.send(JSON.stringify({ "upgrade": Upgrade.value }))
+        }
+
+        getUpgrade()
     </script>
 </body>
 

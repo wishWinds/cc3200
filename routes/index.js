@@ -3,6 +3,7 @@ var router = express.Router();
 var path = require('path');
 
 var configs = {}
+var upgrade = false
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -25,7 +26,8 @@ router.get('/config', function (req, res, next) {
           "trigger_value": parseInt(config["trigger_value"]) ? parseInt(config["trigger_value"]) : 0,
           "sample_time": parseInt(config["sample_time"]) ? parseInt(config["sample_time"]) : 0,
           "sample_freq": parseInt(config["sample_freq"]) ? parseInt(config["sample_freq"]) : 0,
-          "sample_intvl": parseInt(config["sample_intvl"]) ? parseInt(config["sample_intvl"]) : 0
+          "sample_intvl": parseInt(config["sample_intvl"]) ? parseInt(config["sample_intvl"]) : 0,
+          "ota": upgrade ? {"url": "http://xyz.fancyjohn.com:60001/dev_bin/2.0.bin"} : {}
         }
       })
 
@@ -50,4 +52,14 @@ router.post('/config', function (req, res, next) {
   }
   res.json({ ret: true })
 })
+
+router.get('/upgrade', function (req, res, next) {
+  res.json({ "upgrade": upgrade })
+})
+
+router.post('/upgrade', function (req, res, next) {
+  upgrade = req.body["upgrade"]
+  res.json({ ret: true })
+})
+
 module.exports = router;
