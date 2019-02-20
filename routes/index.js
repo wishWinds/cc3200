@@ -18,7 +18,7 @@ router.get('/config', function (req, res, next) {
     if (data) {
       config = data["config"]
       configs[dev_id]["hasFetch"] = true
-      res.json({
+      var ret = {
         "dev_id": config["dev_id"],
         "timestamp": Math.floor(Date.now() / 1000),
         "sample_param": {
@@ -27,10 +27,12 @@ router.get('/config', function (req, res, next) {
           "sample_time": parseInt(config["sample_time"]) ? parseInt(config["sample_time"]) : 0,
           "sample_freq": parseInt(config["sample_freq"]) ? parseInt(config["sample_freq"]) : 0,
           "sample_intvl": parseInt(config["sample_intvl"]) ? parseInt(config["sample_intvl"]) : 0,
-          "ota": upgrade ? {"url": "http://xyz.fancyjohn.com:60001/dev_bin/2.0.bin"} : {}
         }
-      })
-
+      }
+      if (upgrade) {
+        ret["sample_param"]["ota"] = {"url": "http://xyz.fancyjohn.com:60001/dev_bin/2.0.bin"}
+      }
+      res.json()
       return
     }
   }
