@@ -30,7 +30,7 @@ router.get('/config', function (req, res, next) {
         }
       }
       if (upgrade) {
-        ret["sample_param"]["ota"] = {"url": "http://xyz.fancyjohn.com:60001/dev_bin/2.0.bin"}
+        ret["sample_param"]["ota"] = {"url": "http://xyz.fancyjohn.com:60001/dev_bin/Sensor_V1.00.1.bin"}
       }
       res.json(ret)
       return
