@@ -4,6 +4,7 @@ var path = require('path');
 
 var configs = {}
 var upgrade = false
+var binAddress = "http://xyz.fancyjohn.com:60001/dev_bin/Sensor_V1.00.7.bin"
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -30,19 +31,25 @@ router.get('/config', function (req, res, next) {
         }
       }
       if (upgrade) {
-        ret["sample_param"]["ota"] = {"url": "http://xyz.fancyjohn.com:60001/dev_bin/Sensor_V1.00.7.bin"}
+        ret["sample_param"]["ota"] = {"url": binAddress}
       }
       res.json(ret)
       return
     }
   }
 
-  res.json({
+  var ret = {
     "dev_id": dev_id,
     "timestamp": Math.floor(Date.now() / 1000),
     "sample_param": {
     }
-  })
+  }
+
+  if (upgrade) {
+    ret["sample_param"]["ota"] = {"url": binAddress}
+  }
+
+  res.json(ret)
 
 })
 
