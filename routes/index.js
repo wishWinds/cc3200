@@ -4,7 +4,7 @@ var path = require('path');
 
 var configs = {}
 var upgrade = false
-var binAddress = "http://xyz.fancyjohn.com:60001/dev_bin/Sensor_V1.00.7.bin"
+var binAddress = "http://xyz.fancyjohn.com:60001/dev_bin/Sensor_V1.00.8.bin"
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
