@@ -3,59 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <title>CC3200 SETTINGS</title>
     <style>
-        h1 {
-            text-align: center;
-            border-bottom: 1px darkgray solid;
-        }
 
-        h2 {
-            text-align: center;
-            border-bottom: 1px darkgray solid;
-            margin: 50px 0;
-
-        }
-
-
-        .form {
-            width: 50%;
-            margin: auto;
-            margin-top: 60px;
-        }
-
-        .line {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .btn {
-            text-align: right
-        }
-
-        .btn button {
-            width: 20%;
-        }
-
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 
 <body>
-
-    <h1>CC3200数据采集</h1>
+    <h1>CC3200 SETTINGS</h1>
     <div class="form">
-
         <div class="line">
             <label for="Device ID">Device ID:</label>
             <input type="text" id="Device ID">
         </div>
-
 
         <div class="line">
             <label for="Trigger Mechansim">Trigger Mechansim:</label>
@@ -88,16 +51,16 @@
         </div>
 
 
-        <div class="btn">
-            <button class="button">Save</button>
+        <div class="button">
+            Save
         </div>
 
 
-        <h2>升级</h2>
+        <h2>Upgrade</h2>
 
 
         <div class="line">
-            <label for="upgrade">升级</label>
+            <label for="upgrade">Upgrade</label>
             <input type="checkbox" id="Upgrade">
         </div>
 
@@ -116,7 +79,7 @@
         var SamplingIntevalWrapper = document.getElementById("SamplingIntevalWrapper")
         var Upgrade = document.getElementById("Upgrade")
 
-        TriggerM.addEventListener("change", function () {
+        TriggerM.addEventListener("change", function() {
             var option = TriggerM.value
             if (option == "event") {
                 TriggerValueWrapper.classList.remove("hidden")
@@ -130,15 +93,19 @@
             }
         })
 
-        saveBtn.addEventListener("click", function () {
+        saveBtn.addEventListener("click", function() {
             var xmlhttp = new XMLHttpRequest()
             var option = TriggerM.value
             var ret = {}
 
             ret["dev_id"] = deviceID.value
             ret["trigger_mechanism"] = TriggerM.value
-            if (TriggerM.value == "event") { ret["trigger_value"] = TriggerValue.value }
-            if (TriggerM.value == "time") { ret["sample_intvl"] = SamplingInteval.value }
+            if (TriggerM.value == "event") {
+                ret["trigger_value"] = TriggerValue.value
+            }
+            if (TriggerM.value == "time") {
+                ret["sample_intvl"] = SamplingInteval.value
+            }
 
             ret["sample_time"] = SamplingTime.value
             ret["sample_freq"] = SamplingFreq.value
@@ -150,23 +117,27 @@
             alert("保存成功!");
         })
 
-        Upgrade.addEventListener("change", function () {
+        Upgrade.addEventListener("change", function() {
             var xmlhttp = new XMLHttpRequest()
             xmlhttp.open("POST", "/upgrade")
             xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-            xmlhttp.send(JSON.stringify({ "upgrade": Upgrade.checked }))
+            xmlhttp.send(JSON.stringify({
+                "upgrade": Upgrade.checked
+            }))
         })
 
         function getUpgrade() {
             var xmlhttp = new XMLHttpRequest()
             xmlhttp.open("GET", "/upgrade")
             xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-            xmlhttp.onload = function () {
+            xmlhttp.onload = function() {
                 var result = xmlhttp.responseText
                 result = JSON.parse(result)
                 Upgrade.checked = result["upgrade"]
             }
-            xmlhttp.send(JSON.stringify({ "upgrade": Upgrade.value }))
+            xmlhttp.send(JSON.stringify({
+                "upgrade": Upgrade.value
+            }))
         }
 
         getUpgrade()
