@@ -24,6 +24,11 @@ h2 {
     margin: 1rem auto;
 }
 
+.log {
+    text-align: right;
+    padding-right: 30px;
+}
+
 .line {
     margin: 20px 10px;
 }
