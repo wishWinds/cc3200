@@ -59,8 +59,12 @@
 
         <h2>Upgrade</h2>
 
+        <div class="line oneline">
+            <label >最新版本号:</label>
+            <label id="version">1.0</label>
+        </div>
 
-        <div class="line upgrade">
+        <div class="line oneline">
             <label for="upgrade">Upgrade</label>
             <input type="checkbox" id="Upgrade">
         </div>
@@ -89,7 +93,8 @@
         var SamplingIntevalWrapper = document.getElementById("SamplingIntevalWrapper")
         var Upgrade = document.getElementById("Upgrade")
         var file = document.getElementById("file")
-        var uploadBtn = document.getElementById("uploadBtn")
+        // var uploadBtn = document.getElementById("uploadBtn")
+        var version = document.getElementById("version");
 
         TriggerM.addEventListener("change", function() {
             var option = TriggerM.value
@@ -147,20 +152,32 @@
                 result = JSON.parse(result)
                 Upgrade.checked = result["upgrade"]
             }
-            xmlhttp.send(JSON.stringify({
-                "upgrade": Upgrade.value
-            }))
+            xmlhttp.send();
         }
 
-        uploadBtn.addEventListener("click", function() {
+        function getVersion() {
             var xmlhttp = new XMLHttpRequest()
-            xmlhttp.open("POST", "/upload/bin");
-            xmlhttp.setRequestHeader("Content-Type", "multipart/form-data")
-            xmlhttp.send(file.files[0]);
-            alert("上传成功!");
-        })
+            xmlhttp.open("GET", "/lastVersion")
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+            xmlhttp.onload = function() {
+                var result = xmlhttp.responseText
+                result = JSON.parse(result)
+                version.innerHTML = result["latestVersion"];
+            }
+            xmlhttp.send();
+        }
 
-        getUpgrade()
+
+        // uploadBtn.addEventListener("click", function() {
+        //     var xmlhttp = new XMLHttpRequest()
+        //     xmlhttp.open("POST", "/upload/bin");
+        //     xmlhttp.setRequestHeader("Content-Type", "multipart/form-data")
+        //     xmlhttp.send(file.files[0]);
+        //     alert("上传成功!");
+        // })
+
+        getUpgrade();
+        getVersion();
     </script>
 </body>
 

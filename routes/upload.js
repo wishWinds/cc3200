@@ -75,7 +75,7 @@ router.post('/bin', uploadBin.any(), function (req, res, next) {
     if (req.files.length > 0) {
         var pre = fs.readFileSync(path.join(__dirname + "/../preference.json"));
         pre = JSON.parse(pre);
-        pre.lastBinName = req.files[0].originalname;
+        pre.lastBinName = req.files[0].fieldname;
         fs.writeFileSync(path.join(__dirname + "/../preference.json"), JSON.stringify(pre, null, 2));
 
 

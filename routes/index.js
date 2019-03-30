@@ -74,6 +74,8 @@ router.post('/config', function (req, res, next) {
 })
 
 router.get('/upgrade', function (req, res, next) {
+  var pre = fs.readFileSync(path.join(__dirname + "/../preference.json"));
+  pre = JSON.parse(pre);
   res.json({ "upgrade": pre.upgrade })
 })
 
@@ -85,6 +87,11 @@ router.post('/upgrade', function (req, res, next) {
   res.json({ ret: true })
 })
 
+router.get('/lastVersion', function (req, res, next) {
+  var pre = fs.readFileSync(path.join(__dirname + "/../preference.json"));
+  pre = JSON.parse(pre);
+  res.json({ latestVersion: getBinNameVersion()})
+})
 
 function saveConfigs() {
   fs.writeFileSync(path.join(__dirname + "/../configs.json"), JSON.stringify(configs, null, 2));

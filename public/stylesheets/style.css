@@ -76,9 +76,6 @@ h2 {
     background: lightblue;
 }
 
-label[for="upgrade"] {
-    width: auto;
-}
 
 input[type="checkbox"] {
     width: auto;
@@ -90,9 +87,13 @@ input[type="checkbox"] {
     display: none;
 }
 
-.upgrade {
+.oneline {
     display: flex;
     justify-content: space-between;
+}
+
+.oneline label {
+    width: auto;
 }
 
 @media (min-width: 505px) {
