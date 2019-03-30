@@ -42,7 +42,7 @@ var storageBin = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         var timestamp = Date.now();
-        cb(null, "Sensor_V1.00.9.bin");
+        cb(null, "upgrade_test.bin");
     }
 })
 
