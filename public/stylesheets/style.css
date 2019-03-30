@@ -85,13 +85,14 @@ input[type="checkbox"] {
     border: 1px solid #ccc;
 }
 
-.line:last-of-type {
-    display: flex;
-    justify-content: space-between;
-}
 
 .hidden {
     display: none;
+}
+
+.upgrade {
+    display: flex;
+    justify-content: space-between;
 }
 
 @media (min-width: 505px) {

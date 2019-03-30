@@ -32,10 +32,25 @@ var storageTest = multer.diskStorage({
     }
 })
 
+var storageBin = multer.diskStorage({
+    destination: function (req, file, cb) {
+        var filePath = path.join(__dirname, '../public/dev_bin/');
+        if (!fs.existsSync(filePath)) {
+            fs.mkdirSync(filePath);
+        }
+        cb(null, filePath);
+    },
+    filename: function (req, file, cb) {
+        var timestamp = Date.now();
+        cb(null, "Sensor_V1.00.9.bin");
+    }
+})
+
+
 var upload = multer({ storage: storage});
 var uploadTest = multer({ storage: storageTest});
+var uploadBin = multer({ storage: storageBin});
 
-/* GET users listing. */
 router.post('/', upload.any(), function (req, res, next) {
 
     if (req.files.length > 0) {
@@ -55,5 +70,14 @@ router.post('/test', uploadTest.any(), function (req, res, next) {
         res.json({err: -1, message: 'no csv file'})
     }
 });
+
+router.post('/bin', uploadBin.any(), function (req, res, next) {
+    if (req.files.length > 0) {
+        res.json({err: 0, message: 'upload success!'})
+    }
+    else {
+        res.json({err: -1, message: 'upload failed!'})
+    }
+})
 
 module.exports = router;

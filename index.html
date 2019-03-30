@@ -52,7 +52,7 @@
         </div>
 
 
-        <div class="button">
+        <div class="button" id="saveBtn">
             Save
         </div>
 
@@ -60,16 +60,25 @@
         <h2>Upgrade</h2>
 
 
-        <div class="line">
+        <div class="line upgrade">
             <label for="upgrade">Upgrade</label>
             <input type="checkbox" id="Upgrade">
         </div>
 
+        <!-- <h2>上传新版本</h2>
+
+        <div class="line">
+            <input type="file" name="file" id="file">
+        </div>
+
+        <div class="button" id="uploadBtn">
+            Upload
+        </div> -->
     </div>
 
 
     <script>
-        var saveBtn = document.querySelector(".button")
+        var saveBtn = document.getElementById("saveBtn")
         var deviceID = document.getElementById("Device ID")
         var TriggerM = document.getElementById("Trigger Mechansim")
         var TriggerValue = document.getElementById("Trigger Value(G)")
@@ -79,6 +88,8 @@
         var TriggerValueWrapper = document.getElementById("TriggerValueWrapper")
         var SamplingIntevalWrapper = document.getElementById("SamplingIntevalWrapper")
         var Upgrade = document.getElementById("Upgrade")
+        var file = document.getElementById("file")
+        var uploadBtn = document.getElementById("uploadBtn")
 
         TriggerM.addEventListener("change", function() {
             var option = TriggerM.value
@@ -140,6 +151,14 @@
                 "upgrade": Upgrade.value
             }))
         }
+
+        uploadBtn.addEventListener("click", function() {
+            var xmlhttp = new XMLHttpRequest()
+            xmlhttp.open("POST", "/upload/bin");
+            xmlhttp.setRequestHeader("Content-Type", "multipart/form-data")
+            xmlhttp.send(file.files[0]);
+            alert("上传成功!");
+        })
 
         getUpgrade()
     </script>
