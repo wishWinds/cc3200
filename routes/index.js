@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var fs = require("fs");
+var semver = require('semver');
 
-var configs = {}
-var upgrade = false
-var binAddress = "http://xyz.fancyjohn.com:60001/dev_bin/upgrade_test.bin"
+var binAddressBase = "http://xyz.fancyjohn.com:60001/dev_bin/"
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -12,13 +12,23 @@ router.get('/', function (req, res, next) {
   res.sendFile(path.join(__dirname + '/../index.html'))
 });
 
+
+
+var configs = fs.readFileSync(path.join(__dirname + "/../configs.json"));
+configs = JSON.parse(configs);
+
 router.get('/config', function (req, res, next) {
+  var pre = fs.readFileSync(path.join(__dirname + "/../preference.json"));
+  pre = JSON.parse(pre);
+
   var dev_id = req.query.dev_id
+  var version = req.query.soft_ver;
   if (dev_id) {
     var data = configs[dev_id]
     if (data) {
       config = data["config"]
-      configs[dev_id]["hasFetch"] = true
+      configs[dev_id]["hasFetch"] = true;
+      saveConfigs();
       var ret = {
         "dev_id": config["dev_id"],
         "timestamp": Math.floor(Date.now() / 1000),
@@ -30,8 +40,8 @@ router.get('/config', function (req, res, next) {
           "sample_intvl": parseInt(config["sample_intvl"]) ? parseInt(config["sample_intvl"]) : 0,
         }
       }
-      if (upgrade) {
-        ret["sample_param"]["ota"] = {"url": binAddress}
+      if (pre.upgrade && shouldUpgrade(version)) {
+        ret["sample_param"]["ota"] = { "url": binAddressBase + pre.lastBinName }
       }
       res.json(ret)
       return
@@ -45,8 +55,8 @@ router.get('/config', function (req, res, next) {
     }
   }
 
-  if (upgrade) {
-    ret["sample_param"]["ota"] = {"url": binAddress}
+  if (pre.upgrade && shouldUpgrade(version)) {
+    ret["sample_param"]["ota"] = { "url": binAddressBase + pre.lastBinName }
   }
 
   res.json(ret)
@@ -59,16 +69,51 @@ router.post('/config', function (req, res, next) {
     "config": config,
     "hasFetch": false
   }
+  saveConfigs();
   res.json({ ret: true })
 })
 
 router.get('/upgrade', function (req, res, next) {
-  res.json({ "upgrade": upgrade })
+  res.json({ "upgrade": pre.upgrade })
 })
 
 router.post('/upgrade', function (req, res, next) {
-  upgrade = req.body["upgrade"]
+  var pre = fs.readFileSync(path.join(__dirname + "/../preference.json"));
+  pre = JSON.parse(pre);
+  pre.upgrade = req.body["upgrade"]
+  savePreference(pre);
   res.json({ ret: true })
 })
+
+
+function saveConfigs() {
+  fs.writeFileSync(path.join(__dirname + "/../configs.json"), JSON.stringify(configs, null, 2));
+}
+
+function savePreference(pre) {
+  fs.writeFileSync(path.join(__dirname + "/../preference.json"), JSON.stringify(pre, null, 2));
+}
+
+function getBinNameVersion() {
+  var pre = fs.readFileSync(path.join(__dirname + "/../preference.json"));
+  pre = JSON.parse(pre);
+  var binName = pre.lastBinName;
+  var version = binName.slice(binName.indexOf("_V") + 2, binName.indexOf(".bin"));
+  return version;
+}
+
+function shouldUpgrade(currVer) {
+  var binVersion = getBinNameVersion();
+  // if (semver.gte(binVersion, currVer)) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+  if (binVersion == currVer) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 module.exports = router;
