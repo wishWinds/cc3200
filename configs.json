@@ -1,2 +1,24 @@
 {
+  "test": {
+    "config": {
+      "dev_id": "test",
+      "trigger_mechanism": "event",
+      "trigger_value": "",
+      "sample_time": "123",
+      "sample_freq": "",
+      "sample_intvl": ""
+    },
+    "hasFetch": true
+  },
+  "test2": {
+    "config": {
+      "dev_id": "test2",
+      "trigger_mechanism": "event",
+      "trigger_value": "",
+      "sample_time": "12",
+      "sample_freq": "",
+      "sample_intvl": ""
+    },
+    "hasFetch": false
+  }
 }

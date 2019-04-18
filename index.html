@@ -15,6 +15,7 @@
 <body>
     <h1>CC3200 SETTINGS</h1>
     <div class="log"><a href="/uploadFilesTest/">查看日志</a></div>
+    <div class="log" id="clear"><a href="javascript:void(0)">清空日志</a></div>
     <div class="form">
         <div class="line">
             <label for="Device ID">Device ID:</label>
@@ -60,7 +61,7 @@
         <h2>Upgrade</h2>
 
         <div class="line oneline">
-            <label >最新版本号:</label>
+            <label>最新版本号:</label>
             <label id="version">1.0</label>
         </div>
 
@@ -80,7 +81,7 @@
         </div> -->
     </div>
 
-
+    <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
     <script>
         var saveBtn = document.getElementById("saveBtn")
         var deviceID = document.getElementById("Device ID")
@@ -93,7 +94,7 @@
         var SamplingIntevalWrapper = document.getElementById("SamplingIntevalWrapper")
         var Upgrade = document.getElementById("Upgrade")
         var file = document.getElementById("file")
-        // var uploadBtn = document.getElementById("uploadBtn")
+            // var uploadBtn = document.getElementById("uploadBtn")
         var version = document.getElementById("version");
 
         TriggerM.addEventListener("change", function() {
@@ -175,6 +176,14 @@
         //     xmlhttp.send(file.files[0]);
         //     alert("上传成功!");
         // })
+
+        $('#clear').click(function() {
+            if (window.confirm("confirm clear?")) {
+                $.post('/remove', function(data, status) {
+                    alert(data);
+                })
+            }
+        });
 
         getUpgrade();
         getVersion();
