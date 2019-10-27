@@ -25,7 +25,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/upload', uploadRouter);
 app.use('/uploadFiles', express.static('uploadFiles'), serveIndex('uploadFiles', {'icon': true}));
-app.use('/uploadFilesTest', express.static('uploadFilesTest'), serveIndex('uploadFilesTest', {'icon': true}));
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
