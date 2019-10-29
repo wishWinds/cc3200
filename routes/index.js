@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require("fs");
 var semver = require('semver');
 
-var binAddressBase = "http://xyz.fancyjohn.com:60001/dev_bin/"
+var binAddressBase = "http://cc3200.fancyjohn.com/dev_bin/"
 
 var deleteFolderRecursive = function(path) {
     if (fs.existsSync(path)) {
@@ -126,7 +126,8 @@ function getBinNameVersion() {
     var pre = fs.readFileSync(path.join(__dirname + "/../preference.json"));
     pre = JSON.parse(pre);
     var binName = pre.lastBinName;
-    var version = binName.slice(binName.indexOf("_V") + 2, binName.indexOf(".bin"));
+    // var version = binName.slice(binName.indexOf("_V") + 2, binName.indexOf(".bin"));
+    var version = binName;
     return version;
 }
 
