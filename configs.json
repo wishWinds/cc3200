@@ -20,5 +20,54 @@
       "sample_intvl": ""
     },
     "hasFetch": false
+  },
+  "38:81:D7:12:E3:78": {
+    "config": {
+      "dev_id": "38:81:D7:12:E3:78",
+      "trigger_mechanism": "time",
+      "sample_intvl": "1",
+      "sample_time": "30",
+      "sample_freq": "200"
+    },
+    "hasFetch": false
+  },
+  "3881D712E378": {
+    "config": {
+      "dev_id": "3881D712E378",
+      "trigger_mechanism": "time",
+      "sample_intvl": "1",
+      "sample_time": "40",
+      "sample_freq": "501"
+    },
+    "hasFetch": true
+  },
+  "38:81:D7:09:A9:3F": {
+    "config": {
+      "dev_id": "38:81:D7:09:A9:3F",
+      "trigger_mechanism": "cmd",
+      "sample_time": "10",
+      "sample_freq": "100"
+    },
+    "hasFetch": false
+  },
+  "3881D709A93F": {
+    "config": {
+      "dev_id": "3881D709A93F",
+      "trigger_mechanism": "time",
+      "sample_intvl": "1",
+      "sample_time": "10",
+      "sample_freq": "102"
+    },
+    "hasFetch": true
+  },
+  "3881D7099F19": {
+    "config": {
+      "dev_id": "3881D7099F19",
+      "trigger_mechanism": "time",
+      "sample_intvl": "1",
+      "sample_time": "120",
+      "sample_freq": "100"
+    },
+    "hasFetch": true
   }
 }

@@ -32,7 +32,7 @@ var configs = fs.readFileSync(path.join(__dirname + "/../configs.json"));
 configs = JSON.parse(configs);
 
 router.post('/remove', function(req, res, next) {
-    var dir = path.join(__dirname + "/../uploadFilesTest");
+    var dir = path.join(__dirname + "/../uploadFiles");
     deleteFolderRecursive(dir);
     fs.mkdirSync(dir);
 
