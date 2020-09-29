@@ -35,9 +35,9 @@
     "config": {
       "dev_id": "3881D712E378",
       "trigger_mechanism": "time",
-      "sample_intvl": "1",
-      "sample_time": "40",
-      "sample_freq": "501"
+      "sample_intvl": "0",
+      "sample_time": "30",
+      "sample_freq": "503"
     },
     "hasFetch": true
   },
@@ -63,10 +63,9 @@
   "3881D7099F19": {
     "config": {
       "dev_id": "3881D7099F19",
-      "trigger_mechanism": "time",
-      "sample_intvl": "1",
-      "sample_time": "120",
-      "sample_freq": "100"
+      "trigger_mechanism": "cmd",
+      "sample_time": "60",
+      "sample_freq": "200"
     },
     "hasFetch": true
   }
